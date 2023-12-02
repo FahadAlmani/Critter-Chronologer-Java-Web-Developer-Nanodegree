@@ -4,6 +4,7 @@ import com.udacity.jdnd.course3.critter.pet.Pet;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 @Entity
 public class Customer extends User {
@@ -13,6 +14,7 @@ public class Customer extends User {
     private List<Pet> pets;
 
     public Customer() {
+        this.pets = new ArrayList<>();
     }
 
     public Customer(long id, String name, String phoneNumber, String notes, List<Pet> pets) {

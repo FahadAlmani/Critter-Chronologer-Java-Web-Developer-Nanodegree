@@ -65,7 +65,7 @@ public class UserController {
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeRequestDTO) {
-       Set<Employee> employees = this.userService.getAllEmployeesForService(employeeRequestDTO.getSkills(),
+       List<Employee> employees = this.userService.getAllEmployeesForService(employeeRequestDTO.getSkills(),
                employeeRequestDTO.getDate());
        return employees.stream().map(employee -> this.convertEmployeeToDTO(employee)).collect(Collectors.toList());
     }

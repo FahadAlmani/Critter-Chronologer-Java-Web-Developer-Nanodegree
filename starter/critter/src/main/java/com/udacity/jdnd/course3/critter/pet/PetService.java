@@ -1,5 +1,8 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import com.udacity.jdnd.course3.critter.user.Customer;
+import com.udacity.jdnd.course3.critter.user.CustomerRepository;
+import com.udacity.jdnd.course3.critter.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +17,12 @@ public class PetService {
     private PetRepository petRepository;
 
     public Pet savePet(Pet pet){
-        return this.petRepository.save(pet);
+        Pet newPet = this.petRepository.save(pet);
+
+        Customer customer = newPet.getCustomer();
+        customer.getPets().add(newPet);
+
+        return newPet;
     }
 
     public List<Pet> getAllPets(){

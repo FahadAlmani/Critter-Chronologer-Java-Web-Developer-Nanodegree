@@ -1,14 +1,14 @@
 package com.udacity.jdnd.course3.critter.user;
 
-import com.udacity.jdnd.course3.critter.pet.PetRepository;
+
+import com.udacity.jdnd.course3.critter.pet.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
+
 
 import javax.transaction.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,7 +22,7 @@ public class UserService {
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
-    private PetRepository petRepository;
+    private PetService petService;
 
     public UserService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
@@ -41,7 +41,7 @@ public class UserService {
     }
 
     public Customer getCustomerByPet(Long petId){
-        return this.customerRepository.findByPets(this.petRepository.getOne(petId));
+        return this.customerRepository.findByPets(this.petService.getPetById(petId));
     }
 
     public Employee saveEmployee(Employee employee){
@@ -56,8 +56,9 @@ public class UserService {
         Employee employee = this.employeeRepository.getOne(employeeId);
         employee.setDaysAvailable(daysAvailable);
     }
-    public Set<Employee> getAllEmployeesForService(Set<EmployeeSkill> employeeSkills,LocalDate date){
+    public List<Employee> getAllEmployeesForService(Set<EmployeeSkill> employeeSkills,LocalDate date){
         Set<Employee> employees = this.employeeRepository.findAllByDaysAvailableAndSkillsIn(date.getDayOfWeek(), employeeSkills);
-        return employees.stream().map(employee -> employee).filter(employee -> employee.getSkills().equals(employeeSkills)).collect(Collectors.toSet());
+        List<Employee> matchEmployees = employees.stream().filter(employee -> employee.getSkills().containsAll(employeeSkills)).collect(Collectors.toList());
+        return matchEmployees;
     }
 }

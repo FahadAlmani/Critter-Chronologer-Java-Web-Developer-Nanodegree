@@ -22,8 +22,11 @@ public class PetController {
 
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
-        Pet pet = this.petService.savePet(this.convertDTOToPet(petDTO));
-        return this.convertPetToDTO(pet);
+        Customer customer = this.userService.getCustomerById(petDTO.getOwnerId());
+        Pet pet = this.convertDTOToPet(petDTO);
+        pet.setCustomer(customer);
+        Pet newPet = this.petService.savePet(pet);
+        return this.convertPetToDTO(newPet);
     }
 
     @GetMapping("/{petId}")

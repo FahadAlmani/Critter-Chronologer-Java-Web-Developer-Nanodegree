@@ -93,4 +93,17 @@ public class Pet {
     public void setSchedules(List<Schedule> schedules) {
         this.schedules = schedules;
     }
+
+    @Override
+    public String toString() {
+        return "Pet{" +
+                "id=" + id +
+                ", type=" + type +
+                ", name='" + name + '\'' +
+                ", customer=" + customer +
+                ", birthDate=" + birthDate +
+                ", notes='" + notes + '\'' +
+                ", schedules=" + schedules +
+                '}';
+    }
 }
