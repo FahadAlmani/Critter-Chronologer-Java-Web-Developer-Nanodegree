@@ -11,6 +11,10 @@ public class Employee extends User{
     @ElementCollection(targetClass = DayOfWeek.class)
     private Set<DayOfWeek> daysAvailable;
 
+    public Employee() {
+
+    }
+
     public Employee(long id, String name, Set<EmployeeSkill> skills, Set<DayOfWeek> daysAvailable) {
         super(id, name);
         this.skills = skills;

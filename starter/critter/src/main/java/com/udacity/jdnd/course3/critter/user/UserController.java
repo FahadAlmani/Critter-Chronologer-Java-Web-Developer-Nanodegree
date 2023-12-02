@@ -29,7 +29,7 @@ public class UserController {
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
         Customer newCustomer = this.userService.saveCustomer( this.convertDTOToCustomer(customerDTO));
-        return convertCustomerToDTO(newCustomer);
+        return this.convertCustomerToDTO(newCustomer);
     }
 
     @GetMapping("/customer")
@@ -48,22 +48,26 @@ public class UserController {
 
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        Employee newEmployee = this.userService.saveEmployee( this.convertDTOToEmployee(employeeDTO));
+        return this.convertEmployeeToDTO(newEmployee);
     }
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        Employee employee = this.userService.getEmployeeById(employeeId);
+        return this.convertEmployeeToDTO(employee);
     }
 
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        this.userService.setEmployeeAvailability(daysAvailable, employeeId);
     }
 
     @GetMapping("/employee/availability")
-    public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+    public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeRequestDTO) {
+       Set<Employee> employees = this.userService.getAllEmployeesForService(employeeRequestDTO.getSkills(),
+               employeeRequestDTO.getDate());
+       return employees.stream().map(employee -> this.convertEmployeeToDTO(employee)).collect(Collectors.toList());
     }
 
     private Customer convertDTOToCustomer(CustomerDTO customerDTO){
@@ -88,6 +92,20 @@ public class UserController {
             customerDTO.setPetIds(petsId);
         }
         return customerDTO;
+    }
+
+    private Employee convertDTOToEmployee(EmployeeDTO employeeDTO){
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+
+        return employee;
+    }
+
+    private EmployeeDTO convertEmployeeToDTO(Employee employee){
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        BeanUtils.copyProperties(employee, employeeDTO);
+
+        return employeeDTO;
     }
 
 }
