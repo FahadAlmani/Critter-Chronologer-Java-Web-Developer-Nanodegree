@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserService {
     @Autowired
     private CustomerRepository customerRepository;
@@ -50,7 +51,7 @@ public class UserService {
     public Employee getEmployeeById(Long employeeId){
         return this.employeeRepository.getOne(employeeId);
     }
-    @Transactional
+
     public void setEmployeeAvailability(Set<DayOfWeek> daysAvailable,  long employeeId){
         Employee employee = this.employeeRepository.getOne(employeeId);
         employee.setDaysAvailable(daysAvailable);

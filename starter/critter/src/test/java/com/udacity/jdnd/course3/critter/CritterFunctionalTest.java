@@ -109,8 +109,6 @@ public class CritterFunctionalTest {
     public void testFindOwnerByPet() throws InterruptedException {
         CustomerDTO customerDTO = createCustomerDTO();
         CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
-        System.out.println("newCustomer");
-        System.out.println(newCustomer.getId());
         PetDTO petDTO = createPetDTO();
         petDTO.setOwnerId(newCustomer.getId());
         PetDTO newPet = petController.savePet(petDTO);
