@@ -24,9 +24,9 @@ public class Schedule {
     private LocalDate date;
     @ElementCollection(targetClass = EmployeeSkill.class)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "ScheduleSkillsTable", joinColumns = @JoinColumn(name = "scheduleId"))
-    @Column(name = "Skill")
-    private Set<EmployeeSkill> employeeSkillSet;
+    @CollectionTable(name = "ScheduleActivitiesTable", joinColumns = @JoinColumn(name = "scheduleId"))
+    @Column(name = "activities")
+    private Set<EmployeeSkill> activities;
 
     public long getId() {
         return id;
@@ -60,11 +60,11 @@ public class Schedule {
         this.date = date;
     }
 
-    public Set<EmployeeSkill> getEmployeeSkillSet() {
-        return employeeSkillSet;
+    public Set<EmployeeSkill> getActivities() {
+        return activities;
     }
 
-    public void setEmployeeSkillSet(Set<EmployeeSkill> employeeSkillSet) {
-        this.employeeSkillSet = employeeSkillSet;
+    public void setActivities(Set<EmployeeSkill> activities) {
+        this.activities = activities;
     }
 }
